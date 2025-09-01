@@ -27,17 +27,19 @@ if uploaded_file:
 
         if st.button("🚀 Lakukan Segmentasi"):
             try:
-                X_scaled, scaler = preprocess_data(df, features)
-                df_clustered, summary, reduced, labels = run_kmeans(df, X_scaled, features, k)
+                X_scaled, scaler, valid_idx = preprocess_data(df, features)
 
-                st.write("### 📌 Data dengan Cluster")
+                df_valid = df.loc[valid_idx]  
+                df_clustered, summary, reduced, labels = run_kmeans(df_valid.copy(), X_scaled, features, k)
+
+                st.write("### Data dengan Cluster")
                 st.dataframe(df_clustered.head())
 
-                st.write("### 📊 Visualisasi Cluster")
+                st.write("### Visualisasi Cluster")
                 fig = plot_clusters(reduced, labels)
                 st.pyplot(fig)
 
-                st.write("### 📑 Ringkasan Cluster")
+                st.write("### Ringkasan Cluster")
                 st.dataframe(summary)
 
             except Exception as e:
@@ -47,3 +49,5 @@ if uploaded_file:
         st.error(f"Gagal memuat file: {e}")
 else:
     st.info("👆 Silakan upload file CSV/XLS terlebih dahulu.")
+
+
