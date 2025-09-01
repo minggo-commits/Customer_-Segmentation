@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-def preprocess_data(df, features)
+def preprocess_data(df, features):
     X = df[features].copy()
 
     for col in X.columns:
